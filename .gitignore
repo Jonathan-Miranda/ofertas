@@ -1,0 +1,10 @@
+#Ignorar temp files
+*.log
+*.temp
+error_log
+
+#Ignorar carpetas dependencias
+vendor/
+img/
+#variables de entorno
+.env
