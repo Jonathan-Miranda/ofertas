@@ -1,0 +1,19 @@
+body{
+    font-family: "Poppins", serif;
+}
+
+.bg-bk{
+    background-color: #202124;
+}
+
+.bg-grey{
+    background-color: #f9fafb;
+}
+
+.log{
+    max-width: 50%;
+}
+
+.card{
+    border: none;
+}
