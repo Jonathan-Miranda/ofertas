@@ -1,0 +1,4 @@
+DB_HOST="example"
+BD_NAME="example"
+DB_USER="example"
+DB_PASSWORD="example"
