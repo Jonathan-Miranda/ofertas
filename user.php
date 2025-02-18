@@ -59,7 +59,8 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                                 <div class="col-md-8 m-auto">
                                                     <div class="card-body">
                                                         <h4 class="card-title">
-                                                            <?php echo $row_prewin['NOMBRE'] . " " . $row_prewin['APELLIDO']; ?></h4>
+                                                            <?php echo $row_prewin['NOMBRE'] . " " . $row_prewin['APELLIDO']; ?>
+                                                        </h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,7 +93,15 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                 <div class="col-md-3">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <p class="text-center pp">👦🏻Usuarios registrados 8</p>
+                            <?php
+                            $query = "SELECT COUNT(*) AS total_usuarios FROM user";
+                            $tot = $con->prepare($query);
+                            $tot->execute();
+                            
+                            $restot = $tot->fetch(PDO::FETCH_ASSOC);
+                            $totalUsuarios = $restot['total_usuarios'];
+                            ?>
+                            <p class="text-center pp">👦🏻Usuarios registrados <?php echo $totalUsuarios;?></p>
                         </div>
                     </div>
                 </div>
@@ -130,7 +139,8 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                 </div>
                                 <div class="modal-body">
                                     <div class="container">
-                                        <form>
+                                        <form id="add-user" method="POST" enctype="multipart/form-data"
+                                            accept-charset="utf-8">
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
                                                     <div class="form-floating">
@@ -168,7 +178,7 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                                 <div class="col-md-12">
                                                     <div class="d-grid">
                                                         <input type="submit" value="Registrar"
-                                                            class="btn btn-primary btn-lg" id="btn-prod" />
+                                                            class="btn btn-primary btn-lg" />
                                                     </div>
                                                 </div>
                                             </div>
