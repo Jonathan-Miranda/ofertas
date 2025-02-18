@@ -1,3 +1,8 @@
+<?php
+session_start();
+if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
+    require('connection/conexion.php');
+?>
 <!doctype html>
 <html lang="es">
 
@@ -5,62 +10,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Usuarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <?php
+    require('src/component/fonts-bootstrap.php');
+    ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="bg-grey">
 
-    <nav class="navbar sticky-top navbar-expand-md bg-body-tertiary">
-        <div class="container">
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-md-12">
-                            <div class="d-flex justify-content-evenly">
-
-                                <a href="#" class="btn btn-primary"><i class="bi bi-boxes"></i> Productos</a>
-
-                                <a href="#" class="btn btn-primary"><i class="bi bi-people"></i> Usuarios</a>
-
-                                <a href="#" class="btn btn-primary"><i class="bi bi-capsule-pill"></i> Laboratorios</a>
-
-
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-                                        <i class="bi bi-person-circle"></i> Perfil
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item link-danger" href="src/destroy.php"><i
-                                                    class="bi bi-x-circle"></i> Cerrar sesión</a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+    require('src/component/nav.php');
+    ?>
 
     <div class="container my-3">
 
@@ -213,7 +175,8 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="addLabel">Nuevo usuario</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="container">
@@ -229,8 +192,8 @@
 
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="apellido" name="apellido"
-                                                        placeholder="Apellido" required />
+                                                    <input type="text" class="form-control" id="apellido"
+                                                        name="apellido" placeholder="Apellido" required />
                                                     <label for="apellido">Apellido/s</label>
                                                 </div>
                                             </div>
@@ -254,7 +217,8 @@
 
                                             <div class="col-md-12">
                                                 <div class="d-grid">
-                                                    <input type="submit" value="Registrar" class="btn btn-primary btn-lg" id="btn-prod" />
+                                                    <input type="submit" value="Registrar"
+                                                        class="btn btn-primary btn-lg" id="btn-prod" />
                                                 </div>
                                             </div>
                                         </div>
@@ -282,11 +246,13 @@
                                 <p class="fs-3">📬Jona@gmail.com</p>
                                 <p class="fs-3">📞 5524063165</p>
 
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit-us">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#edit-us">
                                     <i class="bi bi-pencil-square"></i> Editar usuario
                                 </button>
 
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-prod">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#add-prod">
                                     + Agregar producto
                                 </button>
 
@@ -316,13 +282,17 @@
                                                 <td>
                                                     <div class="container">
                                                         <div class="input-group">
-                                                            <button class="btn btn-secondary" type="button" id="menos"><i class="bi bi-dash"></i></button>
-                                                            <input type="number" class="form-control" id="agregar" max="2" min="1">
-                                                            <button class="btn btn-secondary" type="button" id="mas"><i class="bi bi-plus"></i></button>
+                                                            <button class="btn btn-secondary" type="button"
+                                                                id="menos"><i class="bi bi-dash"></i></button>
+                                                            <input type="number" class="form-control" id="agregar"
+                                                                max="2" min="1">
+                                                            <button class="btn btn-secondary" type="button" id="mas"><i
+                                                                    class="bi bi-plus"></i></button>
                                                         </div>
 
                                                         <div class="d-grid mt-3">
-                                                            <button class="btn btn-success" type="button" id="btn-add">Agregar</button>
+                                                            <button class="btn btn-success" type="button"
+                                                                id="btn-add">Agregar</button>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -332,7 +302,8 @@
                                                 <td>2</td>
                                                 <td>1</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#xxx">
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#xxx">
                                                         Canjear🎉
                                                     </button>
                                                 </td>
@@ -342,12 +313,15 @@
                                 </div>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="add-prod" tabindex="-1" aria-labelledby="add-prodLabel" aria-hidden="false">
+                                <div class="modal fade" id="add-prod" tabindex="-1" aria-labelledby="add-prodLabel"
+                                    aria-hidden="false">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <p class="modal-title fs-5" id="add-prodLabel">Agregar producto a usuario</p>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <p class="modal-title fs-5" id="add-prodLabel">Agregar producto a
+                                                    usuario</p>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="container">
@@ -356,7 +330,8 @@
 
                                                             <div class="col-md-12 mb-3">
                                                                 <div class="form-floating">
-                                                                    <select class="form-select" id="prod" name="prod" required>
+                                                                    <select class="form-select" id="prod" name="prod"
+                                                                        required>
                                                                         <option value="Aguascalientes">Fayrus</option>
                                                                         <option value="Baja California">Ky6</option>
                                                                     </select>
@@ -366,7 +341,8 @@
 
                                                             <div class="col-md-12">
                                                                 <div class="d-grid">
-                                                                    <input type="submit" value="Agregar" class="btn btn-primary btn-lg" id="btn-prod" />
+                                                                    <input type="submit" value="Agregar"
+                                                                        class="btn btn-primary btn-lg" id="btn-prod" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -381,12 +357,14 @@
                             </div>
 
                             <!-- Modal -->
-                            <div class="modal fade" id="edit-us" tabindex="-1" aria-labelledby="edit-usLabel" aria-hidden="false">
+                            <div class="modal fade" id="edit-us" tabindex="-1" aria-labelledby="edit-usLabel"
+                                aria-hidden="false">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <p class="modal-title fs-5" id="edit-usLabel">Modificar Jonathan</p>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="container">
@@ -394,15 +372,16 @@
                                                     <div class="row">
                                                         <div class="col-md-6 mb-3">
                                                             <div class="form-floating">
-                                                                <input type="text" class="form-control" id="edit-nombre" name="edit-nombre"
-                                                                    placeholder="Nombre" required />
+                                                                <input type="text" class="form-control" id="edit-nombre"
+                                                                    name="edit-nombre" placeholder="Nombre" required />
                                                                 <label for="edit-nombre">Nombre/s</label>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6 mb-3">
                                                             <div class="form-floating">
-                                                                <input type="text" class="form-control" id="edit-apellido" name="edit-apellido"
+                                                                <input type="text" class="form-control"
+                                                                    id="edit-apellido" name="edit-apellido"
                                                                     placeholder="Apellido" required />
                                                                 <label for="edit-apellido">Apellido/s</label>
                                                             </div>
@@ -410,16 +389,16 @@
 
                                                         <div class="col-md-12 mb-3">
                                                             <div class="form-floating">
-                                                                <input type="email" class="form-control" id="edit-mail" name="edit-mail"
-                                                                    placeholder="Correo" required />
+                                                                <input type="email" class="form-control" id="edit-mail"
+                                                                    name="edit-mail" placeholder="Correo" required />
                                                                 <label for="edit-mail">Correo</label>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-12 mb-3">
                                                             <div class="form-floating">
-                                                                <input type="number" class="form-control" id="edit-tel" name="edit-tel"
-                                                                    placeholder="Telefono" required />
+                                                                <input type="number" class="form-control" id="edit-tel"
+                                                                    name="edit-tel" placeholder="Telefono" required />
                                                                 <label for="edit-tel">Telefono</label>
                                                             </div>
                                                         </div>
@@ -427,7 +406,8 @@
 
                                                         <div class="col-md-12">
                                                             <div class="d-grid">
-                                                                <input type="submit" value="Actualizar" class="btn btn-primary btn-lg" id="btn-prod" />
+                                                                <input type="submit" value="Actualizar"
+                                                                    class="btn btn-primary btn-lg" id="btn-prod" />
                                                             </div>
                                                         </div>
 
@@ -448,53 +428,19 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <?php
+    require('js/jquery-boot-sweetalert.php');
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        var swiper = new Swiper(".ganadores", {
-            loop: true,
-            grabCursor: true,
-            slidesPerView: 4,
-            spaceBetween: 30,
-            // Responsive breakpoints
-            breakpoints: {
-                // when window width is >= 320px
-                320: {
-                    slidesPerView: 2,
-                    spaceBetween: 20
-                },
-                // when window width is >= 480px
-                480: {
-                    slidesPerView: 3,
-                    spaceBetween: 20
-                },
-                // when window width is >= 640px
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 30
-                }
-            },
-            autoplay: {
-                delay: 5000,
-            },
-        });
-
-        $('#mas').click(function() {
-            var currentVal = parseInt($('#agregar').val()) || 0;
-            var maxValue = parseInt($('#agregar').attr('max'));
-            if (currentVal < maxValue) {
-                $('#agregar').val(currentVal + 1);
-            }
-        });
-
-        $('#menos').click(function() {
-            var currentVal = parseInt($('#agregar').val());
-            if (currentVal > 1) {
-                $('#agregar').val(currentVal - 1);
-            }
-        });
-    </script>
+    <?php
+    require('js/slide-add-rm-user.php');
+    ?>
 </body>
 
 </html>
+<?php
+} else {
+    header("Location: index.php");
+    exit();
+}
+?>
