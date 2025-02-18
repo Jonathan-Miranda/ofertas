@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-md bg-body-tertiary">
+<nav class="navbar sticky-top navbar-expand-md bg-nav">
         <div class="container">
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
