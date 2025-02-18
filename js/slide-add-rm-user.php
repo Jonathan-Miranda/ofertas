@@ -1,4 +1,35 @@
 <script>
+    // srch
+    let debounceTimer; // temporizador
+
+    $("#buscar").on("input", function () {
+        clearTimeout(debounceTimer); // Reiniciar el temporizador en cada input
+        debounceTimer = setTimeout(function () {
+            buscar($("#buscar").val());
+        }, 1000);
+    });
+
+    function buscar(dato) {
+        $.ajax({
+            type: 'POST',
+            url: 'src/search.php',
+            data: { dato: dato },
+            success: function (response) {
+                $("#result").html(response);
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error',
+                    footer: 'Detalles del error: ' + xhr.responseText,
+                    confirmButtonText: 'Cerrar'
+                });
+            }
+        });
+    }
+    // end-srch
+
     var swiper = new Swiper(".ganadores", {
         loop: true,
         grabCursor: true,
