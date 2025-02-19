@@ -255,12 +255,13 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p class="modal-title fs-5" id="edit-usLabel">Modificar Jonathan</p>
+                            <p class="modal-title fs-5" id="edit-usLabel">Modificar</p>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                                <form>
+                                <form id="edit-user" method="POST" enctype="multipart/form-data"
+                                accept-charset="utf-8">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
@@ -292,12 +293,13 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                                     placeholder="Telefono" required />
                                                 <label for="edit-tel">Telefono</label>
                                             </div>
+                                            <input type="hidden"id="edit-id" name="edit-id" required />
                                         </div>
 
                                         <div class="col-md-12">
                                             <div class="d-grid">
                                                 <input type="submit" value="Actualizar" class="btn btn-primary btn-lg"
-                                                    id="btn-prod" />
+                                                    id="btn-edit-us" />
                                             </div>
                                         </div>
                                     </div>
