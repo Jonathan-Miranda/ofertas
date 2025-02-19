@@ -37,10 +37,11 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                     <div class="swiper py-3 ganadores">
                         <div class="swiper-wrapper">
                             <?php
-                            $q_prewin = "SELECT u.NOMBRE, u.APELLIDO 
-                    FROM user u 
-                    JOIN promo p ON u.ID = p.ID_USER 
-                    WHERE p.FALTANTES = 1";
+                            $q_prewin = "SELECT u.NOMBRE, u.APELLIDO
+FROM user u
+JOIN user_product up ON u.ID = up.ID_USER
+JOIN promo p ON up.ID = p.ID_USER_PRODUCT
+WHERE p.FALTANTES = 1";
 
                             $res_prewin = $con->prepare($q_prewin);
 
