@@ -102,7 +102,7 @@ WHERE p.FALTANTES = 1";
                             $restot = $tot->fetch(PDO::FETCH_ASSOC);
                             $totalUsuarios = $restot['total_usuarios'];
                             ?>
-                            <p class="text-center pp">👦🏻Usuarios registrados <?php echo $totalUsuarios; ?></p>
+                            <p class="text-center pp">👦🏻Usuarios registrados: <?php echo $totalUsuarios; ?></p>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@ WHERE p.FALTANTES = 1";
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="addLabel">Nuevo usuario</h1>
+                            <h2 class="modal-title fs-5" id="addLabel">Nuevo usuario</h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -225,16 +225,31 @@ WHERE p.FALTANTES = 1";
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                                <form>
+                                <form id="add-prod-user" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
                                             <div class="form-floating">
                                                 <select class="form-select" id="prod" name="prod" required>
-                                                    <option value="Aguascalientes">Fayrus</option>
-                                                    <option value="Baja California">Ky6</option>
+                                                    <?php
+                                                    $q_prod = "SELECT ID, NOMBRE FROM product";
+                                                    $res_prod = $con->prepare($q_prod);
+                                                    $res_prod->execute();
+                                                    if ($res_prod->rowCount() > 0) {
+                                                        while ($data_prod = $res_prod->fetch(PDO::FETCH_ASSOC)) {
+                                                            ?>
+                                                            <option value="<?php echo $data_prod['ID']; ?>">
+                                                                <?php echo $data_prod['NOMBRE']; ?>
+                                                            </option>
+                                                            <?php
+                                                        }
+                                                    } else {
+                                                        echo '<option value="null">No hay productos</option>';
+                                                    }
+                                                    ?>
                                                 </select>
-                                                <label for="prod">Producto</label>
+                                                <label for="prod">Productos</label>
                                             </div>
+                                            <input type="hidden" id="id-us" name="id-us" required />
                                         </div>
 
                                         <div class="col-md-12">
@@ -261,8 +276,7 @@ WHERE p.FALTANTES = 1";
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                                <form id="edit-user" method="POST" enctype="multipart/form-data"
-                                accept-charset="utf-8">
+                                <form id="edit-user" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
@@ -294,7 +308,7 @@ WHERE p.FALTANTES = 1";
                                                     placeholder="Telefono" required />
                                                 <label for="edit-tel">Telefono</label>
                                             </div>
-                                            <input type="hidden"id="edit-id" name="edit-id" required />
+                                            <input type="hidden" id="edit-id" name="edit-id" required />
                                         </div>
 
                                         <div class="col-md-12">
