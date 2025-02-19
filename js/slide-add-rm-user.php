@@ -151,6 +151,45 @@
         });
     });
 
+    $('#add-prod-user').submit(function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: "src/add-prod-user.php",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,  // Evita que jQuery intente procesar los datos
+            contentType: false,
+            success: function (response) {
+                if (response.icon == "success") {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    }).then(() => {
+                        window.location.href = "user.php";
+                    });
+                } else {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error',
+                    footer: 'Detalles del error: ' + xhr.responseText, // detalles del error
+                    confirmButtonText: 'Cerrar'
+                });
+            }
+        });
+    });
+
     //add data modal edit-us
     document.addEventListener('DOMContentLoaded', function () {
         const exampleModal = document.getElementById('edit-us');
@@ -186,5 +225,27 @@
         }
     });
     //end add data modal edit-us
+
+    //add data modal add-prod-us
+    document.addEventListener('DOMContentLoaded', function () {
+        const mdProdUs = document.getElementById('add-prod');
+
+        if (mdProdUs) {
+            mdProdUs.addEventListener('show.bs.modal', event => {
+                // Botón que activó la modal
+                const button = event.relatedTarget;
+
+                // Extraer la información del botón
+                const id = button.getAttribute('data-bs-id');
+
+                // Actualizar los campos en la modal
+                const inpid = mdProdUs.querySelector('#id-us');
+
+                // Llenar los valores de la modal con los datos
+                inpid.value = id;
+            });
+        }
+    });
+    //end add data modal add-prod-us
 
 </script>
