@@ -42,7 +42,8 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                         <i class="bi bi-pencil-square"></i> Editar usuario
                                     </button>
 
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-prod">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-prod" 
+                                    data-bs-id="<?php echo $data['ID']; ?>">
                                         + Agregar producto
                                     </button>
 
