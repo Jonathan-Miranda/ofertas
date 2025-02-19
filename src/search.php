@@ -32,7 +32,13 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                     <p class="fs-3">📬<?= htmlspecialchars($data['CORREO']) ?></p>
                                     <p class="fs-3">📞 <?= htmlspecialchars($data['TELEFONO']) ?></p>
 
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit-us">
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" 
+                                    data-bs-target="#edit-us" 
+                                    data-bs-nombre="<?php echo $data['NOMBRE']; ?>" 
+                                    data-bs-apellido="<?php echo $data['APELLIDO']; ?>" 
+                                    data-bs-correo="<?php echo $data['CORREO']; ?>" 
+                                    data-bs-telefono="<?php echo $data['TELEFONO']; ?>"
+                                    data-bs-id="<?php echo $data['ID']; ?>">
                                         <i class="bi bi-pencil-square"></i> Editar usuario
                                     </button>
 
