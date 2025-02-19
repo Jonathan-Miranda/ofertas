@@ -111,4 +111,80 @@
             }
         });
     });
+
+    $('#edit-user').submit(function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        $.ajax({
+            url: "src/edit-user.php",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,  // Evita que jQuery intente procesar los datos
+            contentType: false,
+            success: function (response) {
+                if (response.icon == "success") {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    }).then(() => {
+                        window.location.href = "user.php";
+                    });
+                } else {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error',
+                    footer: 'Detalles del error: ' + xhr.responseText, // detalles del error
+                    confirmButtonText: 'Cerrar'
+                });
+            }
+        });
+    });
+
+    //add data modal edit-us
+    document.addEventListener('DOMContentLoaded', function () {
+        const exampleModal = document.getElementById('edit-us');
+
+        if (exampleModal) {
+            exampleModal.addEventListener('show.bs.modal', event => {
+                // Botón que activó la modal
+                const button = event.relatedTarget;
+
+                // Extraer la información del botón
+                const nombre = button.getAttribute('data-bs-nombre');
+                const apellido = button.getAttribute('data-bs-apellido');
+                const correo = button.getAttribute('data-bs-correo');
+                const telefono = button.getAttribute('data-bs-telefono');
+                const id = button.getAttribute('data-bs-id');
+
+                // Actualizar los campos en la modal
+                const modalTitle = exampleModal.querySelector('.modal-title');
+                const inpName = exampleModal.querySelector('#edit-nombre');
+                const inpApellido = exampleModal.querySelector('#edit-apellido');
+                const inpMail = exampleModal.querySelector('#edit-mail');
+                const inpTel = exampleModal.querySelector('#edit-tel');
+                const inpid = exampleModal.querySelector('#edit-id');
+
+                // Llenar los valores de la modal con los datos
+                modalTitle.textContent = `Editar: ${nombre}`;
+                inpName.value = nombre;
+                inpApellido.value = apellido;
+                inpMail.value = correo;
+                inpTel.value = telefono;
+                inpid.value = id;
+            });
+        }
+    });
+    //end add data modal edit-us
+
 </script>
