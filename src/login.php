@@ -25,7 +25,7 @@ function verificarCorreo($email)
 // ==========================================================
 function loginUsuario($email, $password, $con)
 {
-    $consulta = "SELECT ID,PW,ROLL FROM admin WHERE MAIL = :correo  AND ROLL = :rol";
+    $consulta = "SELECT ID,NOMBRE,PW,ROLL FROM admin WHERE MAIL = :correo  AND ROLL = :rol";
     $resultado = $con->prepare($consulta);
     $rol=2;
     $resultado->bindParam(':correo', $email, PDO::PARAM_STR);
@@ -37,6 +37,7 @@ function loginUsuario($email, $password, $con)
         if (password_verify($password, $data['PW'])) {
 
             $_SESSION["id-user"] = $data['ID'];
+            $_SESSION["user-name"] = $data['NOMBRE'];
             $_SESSION["rol"] = $data['ROLL'];
 
             $icon = "success";
