@@ -9,7 +9,7 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
     $user = (isset($_POST['id-us'])) ? $_POST['id-us'] : '';
 
     //Funciones{
-    function editUser($product, $user, $con)
+    function addProdUs($product, $user, $con)
     {
         // Validar datos de entrada
         if (empty($product) || empty($user)) {
@@ -68,7 +68,7 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
 
     //funcion principal
 
-    $response = editUser($product, $user, $con);
+    $response = addProdUs($product, $user, $con);
 
     //end funcion pricipal
     print json_encode($response);
