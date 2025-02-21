@@ -217,6 +217,48 @@
 
     });
 
+    // premio
+
+    $(document).on('submit', '.regalo', function (e) {
+        e.preventDefault();
+        const formulario = $(this).closest('form')[0]; // Obtiene el formulario específico
+        const formData = new FormData(formulario);
+
+        $.ajax({
+            url: "src/premio.php",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,  // Evita que jQuery intente procesar los datos
+            contentType: false,
+            success: function (response) {
+                if (response.icon == "success") {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    }).then(() => {
+                        window.location.href = "user.php";
+                    });
+                } else {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error',
+                    footer: 'Detalles del error: ' + xhr.responseText, // detalles del error
+                    confirmButtonText: 'Cerrar'
+                });
+            }
+        });
+
+    });
+
     //add data modal edit-us
     document.addEventListener('DOMContentLoaded', function () {
         const exampleModal = document.getElementById('edit-us');
