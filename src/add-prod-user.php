@@ -45,8 +45,32 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
 
             // Ejecutamos la consulta de actualización
             if ($res->execute()) {
-                $icon = "success";
-                $msj = "Se añadio el producto";
+                $idUserProduct = $con->lastInsertId();
+                $cant = 0;
+                $q_compra = "INSERT INTO compra (ID_USER, ID_PRODUCT, ID_ADMIN, CANTIDAD) VALUES (:id_us, :id_prod, :id_ad, :cant)";
+                $resQ = $con->prepare($q_compra);
+
+                $resQ->bindParam(':id_us', $user, PDO::PARAM_INT);
+                $resQ->bindParam(':id_prod', $product, PDO::PARAM_INT);
+                $resQ->bindParam(':id_ad', $_SESSION['id-user'], PDO::PARAM_INT);
+                $resQ->bindParam(':cant', $cant, PDO::PARAM_INT);
+                if ($resQ->execute()) {
+                    $q_promo = "INSERT INTO promo (ID_USER_PRODUCT, COMPRADOS) VALUES (:id_us_prod, :cant)";
+                    $resP = $con->prepare($q_promo);
+
+                    $resP->bindParam(':id_us_prod', $idUserProduct, PDO::PARAM_INT);
+                    $resP->bindParam(':cant', $cant, PDO::PARAM_INT);
+                    if ($resP->execute()) {
+                        $icon = "success";
+                        $msj = "Se añadio el producto";
+                    } else {
+                        $icon = "error";
+                        $msj = "No se agrego la promoción";
+                    }
+                } else {
+                    $icon = "error";
+                    $msj = "No se registro la compra inicial";
+                }
             } else {
                 $icon = "error";
                 $msj = "No se pudo añadir el producto";
