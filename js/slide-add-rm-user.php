@@ -58,21 +58,6 @@
         },
     });
 
-    $('#mas').click(function () {
-        var currentVal = parseInt($('#agregar').val()) || 0;
-        var maxValue = parseInt($('#agregar').attr('max'));
-        if (currentVal < maxValue) {
-            $('#agregar').val(currentVal + 1);
-        }
-    });
-
-    $('#menos').click(function () {
-        var currentVal = parseInt($('#agregar').val());
-        if (currentVal > 1) {
-            $('#agregar').val(currentVal - 1);
-        }
-    });
-
     $('#add-user').submit(function (e) {
         e.preventDefault();
 
@@ -188,6 +173,48 @@
                 });
             }
         });
+    });
+
+    //add compra
+
+    $(document).on('submit', '.add-compra', function (e) {
+        e.preventDefault();
+        const formulario = $(this).closest('form')[0]; // Obtiene el formulario específico
+        const formData = new FormData(formulario);
+
+        $.ajax({
+            url: "src/compra-user.php",
+            type: "POST",
+            dataType: "json",
+            data: formData,
+            processData: false,  // Evita que jQuery intente procesar los datos
+            contentType: false,
+            success: function (response) {
+                if (response.icon == "success") {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    }).then(() => {
+                        window.location.href = "user.php";
+                    });
+                } else {
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.msj,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error',
+                    footer: 'Detalles del error: ' + xhr.responseText, // detalles del error
+                    confirmButtonText: 'Cerrar'
+                });
+            }
+        });
+
     });
 
     //add data modal edit-us
