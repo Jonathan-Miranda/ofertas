@@ -86,25 +86,47 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                                             <td><?php echo $d['FALTANTES']; ?></td>
                                                             <td>
                                                                 <div class="container">
-                                                                    <form class="add-compra" method="POST" enctype="multipart/form-data"
-                                                                        accept-charset="utf-8">
+                                                                    <?php
+                                                                    if ($d['FALTANTES'] > 0) {
+                                                                        ?>
 
-                                                                        <div class="input-group">
-                                                                            <input type="number" class="form-control" name="cantidad"
-                                                                                max="<?php echo $d['FALTANTES']; ?>" min="1" required />
-                                                                        </div>
-                                                                        <input type="hidden" name="id-user"
-                                                                            value="<?php echo $data['ID']; ?>" required>
-                                                                        <input type="hidden" name="id-product"
-                                                                            value="<?php echo $d['ProductoID']; ?>" required>
-                                                                        <input type="hidden" name="id-promo"
-                                                                            value="<?php echo $d['PromoID']; ?>" required>
-                                                                        <input type="hidden" name="faltante"
-                                                                            value="<?php echo $d['FALTANTES']; ?>" required>
-                                                                        <div class="d-grid mt-3">
-                                                                            <input type="submit" value="Agregar" class="btn btn-success" />
-                                                                        </div>
-                                                                    </form>
+                                                                        <form class="add-compra" method="POST" enctype="multipart/form-data"
+                                                                            accept-charset="utf-8">
+
+                                                                            <div class="input-group">
+                                                                                <input type="number" class="form-control" name="cantidad"
+                                                                                    max="<?php echo $d['FALTANTES']; ?>" min="1" required />
+                                                                            </div>
+                                                                            <input type="hidden" name="id-user" value="<?php echo $data['ID']; ?>"
+                                                                                required>
+                                                                            <input type="hidden" name="id-product"
+                                                                                value="<?php echo $d['ProductoID']; ?>" required>
+                                                                            <input type="hidden" name="id-promo"
+                                                                                value="<?php echo $d['PromoID']; ?>" required>
+                                                                            <input type="hidden" name="faltante"
+                                                                                value="<?php echo $d['FALTANTES']; ?>" required>
+                                                                            <div class="d-grid mt-3">
+                                                                                <input type="submit" value="Agregar" class="btn btn-success" />
+                                                                            </div>
+                                                                        </form>
+                                                                        <?php
+                                                                    } else {
+                                                                        ?>
+                                                                        <form class="regalo" method="POST" enctype="multipart/form-data"
+                                                                            accept-charset="utf-8">
+                                                                            <div class="d-grid">
+                                                                                <input type="hidden" name="id-us-regalo"
+                                                                                    value="<?php echo $data['ID']; ?>" required>
+                                                                                <input type="hidden" name="id-prod-regalo"
+                                                                                    value="<?php echo $d['ProductoID']; ?>" required>
+                                                                                <input type="hidden" name="id-promo"
+                                                                                    value="<?php echo $d['PromoID']; ?>" required>
+                                                                                <input type="submit" value="Canjear🎉" class="btn btn-warning" />
+                                                                            </div>
+                                                                        </form>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
                                                                 </div>
                                                             </td>
                                                         </tr>
