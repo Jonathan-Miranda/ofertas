@@ -91,23 +91,7 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
 
             <div class="row mb-3">
 
-                <div class="col-md-3">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <?php
-                            $query = "SELECT COUNT(*) AS total_usuarios FROM user";
-                            $tot = $con->prepare($query);
-                            $tot->execute();
-
-                            $restot = $tot->fetch(PDO::FETCH_ASSOC);
-                            $totalUsuarios = $restot['total_usuarios'];
-                            ?>
-                            <p class="text-center pp">👦🏻Usuarios registrados: <?php echo $totalUsuarios; ?></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <div class="input-group">
@@ -118,7 +102,7 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <div class="d-grid">
