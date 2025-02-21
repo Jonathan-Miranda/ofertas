@@ -331,6 +331,7 @@ WHERE p.FALTANTES = 1";
         require('js/jquery-boot-sweetalert.php');
         ?>
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
         <?php
         require('js/slide-add-rm-user.php');
         ?>
