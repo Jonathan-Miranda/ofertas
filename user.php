@@ -37,17 +37,17 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                     <div class="swiper py-3 ganadores">
                         <div class="swiper-wrapper">
                             <?php
-                            $q_prewin = "SELECT u.NOMBRE, u.APELLIDO
-FROM user u
-JOIN user_product up ON u.ID = up.ID_USER
-JOIN promo p ON up.ID = p.ID_USER_PRODUCT
-WHERE p.FALTANTES = 1";
+                            $q_prewin = "SELECT u.NOMBRE, u.APELLIDO 
+                            FROM user u 
+                            JOIN user_product up ON u.ID = up.ID_USER 
+                            JOIN promo p ON up.ID = p.ID_USER_PRODUCT 
+                            WHERE p.FALTANTES = 1";
 
                             $res_prewin = $con->prepare($q_prewin);
 
                             $res_prewin->execute();
 
-                            if ($res_prewin->rowCount() > 1) {
+                            if ($res_prewin->rowCount() >= 1) {
                                 while ($row_prewin = $res_prewin->fetch(PDO::FETCH_ASSOC)) {
 
                                     ?>
