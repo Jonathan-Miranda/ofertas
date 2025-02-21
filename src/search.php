@@ -32,18 +32,16 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                     <p class="fs-3">📬<?= htmlspecialchars($data['CORREO']) ?></p>
                                     <p class="fs-3">📞 <?= htmlspecialchars($data['TELEFONO']) ?></p>
 
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" 
-                                    data-bs-target="#edit-us" 
-                                    data-bs-nombre="<?php echo $data['NOMBRE']; ?>" 
-                                    data-bs-apellido="<?php echo $data['APELLIDO']; ?>" 
-                                    data-bs-correo="<?php echo $data['CORREO']; ?>" 
-                                    data-bs-telefono="<?php echo $data['TELEFONO']; ?>"
-                                    data-bs-id="<?php echo $data['ID']; ?>">
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit-us"
+                                        data-bs-nombre="<?php echo $data['NOMBRE']; ?>"
+                                        data-bs-apellido="<?php echo $data['APELLIDO']; ?>"
+                                        data-bs-correo="<?php echo $data['CORREO']; ?>"
+                                        data-bs-telefono="<?php echo $data['TELEFONO']; ?>" data-bs-id="<?php echo $data['ID']; ?>">
                                         <i class="bi bi-pencil-square"></i> Editar usuario
                                     </button>
 
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-prod" 
-                                    data-bs-id="<?php echo $data['ID']; ?>">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-prod"
+                                        data-bs-id="<?php echo $data['ID']; ?>">
                                         + Agregar producto
                                     </button>
 
@@ -54,7 +52,6 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                     <div class="text-center mb-3">
                                         <span class="fs-4">📦Productos</span>
                                     </div>
-
                                     <div class="table-responsive">
                                         <table class="table table-hover table-striped">
                                             <thead class="text-center">
@@ -66,39 +63,57 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th>Ky6</th>
-                                                    <td>1</td>
-                                                    <td>2</td>
-                                                    <td>
-                                                        <div class="container">
-                                                            <div class="input-group">
-                                                                <button class="btn btn-secondary" type="button" id="menos"><i
-                                                                        class="bi bi-dash"></i></button>
-                                                                <input type="number" class="form-control" id="agregar" max="2" min="1">
-                                                                <button class="btn btn-secondary" type="button" id="mas"><i
-                                                                        class="bi bi-plus"></i></button>
-                                                            </div>
+                                                <?php
+                                                //distinct -> para borrar duplicados ya que los resultados se colocaban 2 veces con la misma data
+                                                $q_p_us = "SELECT DISTINCT p.ID AS ProductoID, 
+                                                p.NOMBRE AS ProductoNombre, pr.ID AS PromoID, 
+                                                pr.COMPRADOS, pr.FALTANTES FROM 
+                                                compra c JOIN product p ON c.ID_PRODUCT = p.ID JOIN user u ON c.ID_USER = u.ID 
+                                                LEFT JOIN user_product up ON 
+                                                up.ID_USER = c.ID_USER AND up.ID_PRODUCT = p.ID LEFT JOIN 
+                                                promo pr ON pr.ID_USER_PRODUCT = up.ID WHERE c.ID_USER = :id_us";
 
-                                                            <div class="d-grid mt-3">
-                                                                <button class="btn btn-success" type="button"
-                                                                    id="btn-add">Agregar</button>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Fayrus</th>
-                                                    <td>2</td>
-                                                    <td>1</td>
-                                                    <td>
-                                                        <div class="d-grid mt-3">
-                                                            <button type="button" class="btn btn-warning">
-                                                                Canjear🎉
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                $r_qPu = $con->prepare($q_p_us);
+                                                $r_qPu->bindParam(':id_us', $data['ID'], PDO::PARAM_INT);
+                                                $r_qPu->execute();
+
+                                                if ($r_qPu->rowCount() > 0) {
+                                                    while ($d = $r_qPu->fetch(PDO::FETCH_ASSOC)) {
+                                                        ?>
+                                                        <tr>
+                                                            <th><?php echo $d['ProductoNombre']; ?></th>
+                                                            <td><?php echo $d['COMPRADOS']; ?></td>
+                                                            <td><?php echo $d['FALTANTES']; ?></td>
+                                                            <td>
+                                                                <div class="container">
+                                                                    <form class="add-compra" method="POST" enctype="multipart/form-data"
+                                                                        accept-charset="utf-8">
+
+                                                                        <div class="input-group">
+                                                                            <input type="number" class="form-control" name="cantidad"
+                                                                                max="<?php echo $d['FALTANTES']; ?>" min="1" required />
+                                                                        </div>
+                                                                        <input type="hidden" name="id-user"
+                                                                            value="<?php echo $data['ID']; ?>" required>
+                                                                        <input type="hidden" name="id-product"
+                                                                            value="<?php echo $d['ProductoID']; ?>" required>
+                                                                        <input type="hidden" name="id-promo"
+                                                                            value="<?php echo $d['PromoID']; ?>" required>
+                                                                        <input type="hidden" name="faltante"
+                                                                            value="<?php echo $d['FALTANTES']; ?>" required>
+                                                                        <div class="d-grid mt-3">
+                                                                            <input type="submit" value="Agregar" class="btn btn-success" />
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                } else {
+                                                    echo '<div class="alert alert-danger" role="alert">Aún no hay productos registrados</div>';
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
