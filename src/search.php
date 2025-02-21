@@ -64,14 +64,16 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                //distinct -> para borrar duplicados ya que los resultados se colocaban 2 veces con la misma data
-                                                $q_p_us = "SELECT DISTINCT p.ID AS ProductoID, 
-                                                p.NOMBRE AS ProductoNombre, pr.ID AS PromoID, 
-                                                pr.COMPRADOS, pr.FALTANTES FROM 
-                                                compra c JOIN product p ON c.ID_PRODUCT = p.ID JOIN user u ON c.ID_USER = u.ID 
-                                                LEFT JOIN user_product up ON 
-                                                up.ID_USER = c.ID_USER AND up.ID_PRODUCT = p.ID LEFT JOIN 
-                                                promo pr ON pr.ID_USER_PRODUCT = up.ID WHERE c.ID_USER = :id_us";
+                                                $q_p_us = "SELECT 
+                                                p.ID AS ProductoID, 
+                                                p.NOMBRE AS ProductoNombre, 
+                                                pr.ID AS PromoID, 
+                                                pr.COMPRADOS, 
+                                                pr.FALTANTES 
+                                                FROM promo pr 
+                                                JOIN user_product up ON pr.ID_USER_PRODUCT = up.ID 
+                                                JOIN product p ON up.ID_PRODUCT = p.ID 
+                                                WHERE up.ID_USER = :id_us";
 
                                                 $r_qPu = $con->prepare($q_p_us);
                                                 $r_qPu->bindParam(':id_us', $data['ID'], PDO::PARAM_INT);
