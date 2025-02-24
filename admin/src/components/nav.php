@@ -16,7 +16,7 @@
 
                             <a href="product.php" class="btn btn-primary"><i class="bi bi-boxes"></i> Productos</a>
 
-                            <a href="users.php" class="btn btn-primary"><i class="bi bi-people"></i> Usuarios</a>
+                            <a href="users.php" class="btn btn-primary"><i class="bi bi-shop"></i> Sucursales</a>
 
                             <a href="lab.php" class="btn btn-primary"><i class="bi bi-capsule-pill"></i> Laboratorios</a>
 
