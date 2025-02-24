@@ -41,31 +41,38 @@
 
 
 
-    new Chart(venta, {
-        type: 'bar',
-        data: {
-            labels: ['Ky6', 'Fayrus', 'Portem', 'Tribedoce', 'Lo-bruquin', 'Afleno', 'Tarmin', 'Brunadol'],
-            datasets: [{
-                label: 'Ventas',
-                data: [12, 19, 3, 5, 2, 3, 8, 5],
-                borderWidth: 1,
-                borderRadius: 20
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false
+    fetch('src/components/data-productos-venta.php')
+        .then(response => response.json())
+        .then(data => {
+            const labels = data.map(item => item.producto);
+            const ventas = data.map(item => item.total_ventas);
+            new Chart(venta, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Ventas',
+                        data: ventas,
+                        borderWidth: 1,
+                        borderRadius: 20
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    indexAxis: 'y',
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-            },
-            indexAxis: 'y',
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+            });
+        })
+        .catch(error => console.error('Error obteniendo los datos:', error));
 
 
     new Chart(canje, {
