@@ -16,7 +16,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
 
-    <body class="bg-dark text-white">
+    <body class="bg-dark">
 
         <?php
         require('src/components/nav.php');
@@ -28,8 +28,15 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
 
                 <div class="col-md-3 offset-md-1">
                     <div class="card h-100 shadow-sm">
+                        <?php
+                        $q_p = "SELECT COUNT(*) AS total_producto FROM product";
+                        $r_q_p = $con->prepare($q_p);
+                        $r_q_p->execute();
+                        $restot = $r_q_p->fetch(PDO::FETCH_ASSOC);
+                        $total_producto = $restot['total_producto'];
+                        ?>
                         <div class="card-body">
-                            <p class="text-center pp">📦Productos registrados 8</p>
+                            <p class="text-center pp">📦Productos registrados: <?php echo $total_producto; ?></p>
                         </div>
                     </div>
                 </div>
@@ -62,13 +69,14 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="addLabel">Nuevo producto</h1>
+                                    <h2 class="modal-title fs-5" id="addLabel">Nuevo producto</h2>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="container">
-                                        <form>
+                                        <form id="add-prod" method="POST" enctype="multipart/form-data"
+                                            accept-charset="utf-8">
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
                                                     <div class="form-floating">
@@ -77,33 +85,33 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                                         <label for="nombre">Nombre</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12 mb-3">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control" placeholder="Descripción"
-                                                            id="descripcion"></textarea>
-                                                        <label for="descripcion">Descripción</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 mb-3">
-                                                    <div class="form-floating">
-                                                        <input type="file" class="form-control" id="img" name="img"
-                                                            placeholder="Imagen" required />
-                                                        <label for="img">Imagen</label>
-                                                    </div>
-                                                </div>
+
                                                 <div class="col-md-12 mb-3">
                                                     <div class="form-floating">
                                                         <select class="form-select" id="lab" name="lab" required>
-                                                            <option value="Aguascalientes">Aguascalientes</option>
-                                                            <option value="Baja California">Baja California</option>
+                                                            <?php
+                                                            $q_lab = "SELECT ID, NOMBRE FROM lab";
+                                                            $res_lab = $con->prepare($q_lab);
+                                                            $res_lab->execute();
+                                                            if ($res_lab->rowCount() > 0) {
+                                                                while ($data_lab = $res_lab->fetch(PDO::FETCH_ASSOC)) {
+                                                                    ?>
+                                                                    <option value="<?php echo $data_lab['ID']; ?>">
+                                                                        <?php echo $data_lab['NOMBRE']; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                }
+                                                            } else {
+                                                                echo '<option value="null">No hay laboratorios</option>';
+                                                            }
+                                                            ?>
                                                         </select>
                                                         <label for="lab">Laboratorio</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="d-grid">
-                                                        <input type="submit" value="Agregar" class="btn btn-primary btn-lg"
-                                                            id="btn-prod" />
+                                                        <input type="submit" value="Agregar" class="btn btn-primary btn-lg"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -226,6 +234,9 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
 
         <?php
         require('../js/jquery-boot-sweetalert.php');
+        ?>
+        <?php
+        require('js/product.php');
         ?>
     </body>
 
