@@ -1,8 +1,8 @@
 <script>
-    // $(function () {
-    //     buscar('');
-    // });
-    // srch xd
+    $(function () {
+        buscar('');
+    });
+    // srch 
     let debounceTimer;
 
     $("#buscar").on("input", function () {
