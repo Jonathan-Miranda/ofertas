@@ -27,8 +27,8 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
         while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
             ?>
             <tr>
-                <td><?php echo $data['NOMBRE']; ?></td>
-                <th><?php echo $data['LABORATORIO']; ?></th>
+                <th><?php echo $data['NOMBRE']; ?></th>
+                <td><?php echo $data['LABORATORIO']; ?></td>
                 <td>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit"
                         data-bs-nombre="<?php echo $data['NOMBRE']; ?>" data-bs-id="<?php echo $data['ID']; ?>">
