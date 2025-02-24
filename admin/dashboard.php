@@ -2,6 +2,23 @@
 session_start();
 if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
     require('../connection/conexion.php');
+    //
+    $query = "SELECT 
+        (SELECT COUNT(*) FROM compra) AS compras,
+        (SELECT COUNT(*) FROM history) AS gratis,
+        (SELECT COUNT(*) FROM user) AS usuarios,
+        (SELECT COUNT(*) FROM product) AS productos";
+
+    $query_gral = $con->prepare($query);
+    $query_gral->execute();
+    $data_gral = $query_gral->fetch(PDO::FETCH_ASSOC);
+
+    $compras = $data_gral['compras'];
+    $gratis = $data_gral['gratis'];
+    $usuarios = $data_gral['usuarios'];
+    $productos = $data_gral['productos'];
+
+    //
     ?>
     <!doctype html>
     <html lang="es">
@@ -15,6 +32,13 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
         ?>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
+    <style>
+        .xd {
+            color: #99d9d9;
+            font-size: 10vh;
+            font-weight: bold;
+        }
+    </style>
 
     <body class="bg-dark text-white">
         <?php
@@ -34,7 +58,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                             💵Total de compras
                         </div>
                         <div class="card-body">
-                            <p class="text-center xd">100</p>
+                            <p class="text-center xd"><?php echo $compras; ?></p>
                         </div>
                     </div>
                 </div>
@@ -45,7 +69,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                             🎁Productos gratis entregados
                         </div>
                         <div class="card-body">
-                            <p class="text-center xd">500</p>
+                            <p class="text-center xd"><?php echo $gratis; ?></p>
                         </div>
                     </div>
                 </div>
@@ -56,7 +80,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                             📝Usuarios registrados
                         </div>
                         <div class="card-body">
-                            <p class="text-center xd">745</p>
+                            <p class="text-center xd"><?php echo $usuarios; ?></p>
                         </div>
                     </div>
                 </div>
@@ -67,7 +91,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                             📦Productos registrados
                         </div>
                         <div class="card-body">
-                            <p class="text-center xd">8</p>
+                            <p class="text-center xd"><?php echo $productos; ?></p>
                         </div>
                     </div>
                 </div>
@@ -193,94 +217,9 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
         require('../js/jquery-boot-sweetalert.php');
         ?>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-        <script>
-            const lab = document.getElementById('lab');
-            const venta = document.getElementById('vendidos');
-            const canje = document.getElementById('canje');
-
-            new Chart(lab, {
-                type: 'bar',
-                data: {
-                    labels: ['Bruluart', 'Bruluagsa'],
-                    datasets: [{
-                        label: 'Ventas',
-                        data: [12, 15],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)'
-                        ],
-                        borderWidth: 1,
-                        borderRadius: 20
-                    }],
-
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-
-
-            new Chart(venta, {
-                type: 'bar',
-                data: {
-                    labels: ['Ky6', 'Fayrus', 'Portem', 'Tribedoce', 'Lo-bruquin', 'Afleno', 'Tarmin', 'Brunadol'],
-                    datasets: [{
-                        label: 'Ventas',
-                        data: [12, 19, 3, 5, 2, 3, 8, 5],
-                        borderWidth: 1,
-                        borderRadius: 20
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    indexAxis: 'y',
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-
-            new Chart(canje, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Ky6', 'Fayrus', 'Portem', 'Tribedoce', 'Lo-bruquin', 'Afleno', 'Tarmin', 'Brunadol'],
-                    datasets: [{
-                        label: 'Canje',
-                        data: [12, 19, 3, 5, 2, 3, 8, 5],
-                        borderWidth: 1,
-                        borderRadius: 20
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        </script>
+        <?php
+        require('js/dashboard.php');
+        ?>
     </body>
 
     </html>
