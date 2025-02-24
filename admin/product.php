@@ -26,7 +26,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
 
             <div class="row my-3">
 
-                <div class="col-md-3 offset-md-1">
+                <div class="col-md-3">
                     <div class="card h-100 shadow-sm">
                         <?php
                         $q_p = "SELECT COUNT(*) AS total_producto FROM product";
@@ -46,14 +46,13 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                         <div class="card-body">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-                                <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar"
-                                    aria-describedby="basic-addon1">
+                                <input type="search" class="form-control" placeholder="Buscar" id="buscar">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <div class="d-grid">
@@ -111,7 +110,8 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="d-grid">
-                                                        <input type="submit" value="Agregar" class="btn btn-primary btn-lg"/>
+                                                        <input type="submit" value="Agregar"
+                                                            class="btn btn-primary btn-lg" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,49 +127,22 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
             </div>
 
             <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="text-center">
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Laboratorio</th>
+                                    <th scope="col">Editar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" id="result">
 
-                <div class="col-md-3 position-relative">
-                    <div class="card h-100 shadow-sm">
-                        <img src="https://placehold.co/400" class="card-img-top" alt="Imagen del producto">
-                        <div class="card-body">
-                            <p class="card-title">Nombre producto</p>
-                            <p class="card-text">Descripción: Lorem ipsum dolor sit amet</p>
-
-                            <div class="d-flex justify-content-evenly">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#edit"><i class="bi bi-pencil-square"></i> Editar</button>
-                                <a href="#" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Eliminar</a>
-                            </div>
-                        </div>
-
-                        <div class="position-absolute top-0 start-0 m-2">
-                            <p><span class="badge rounded-pill text-bg-dark">Bruluart</span></p>
-                        </div>
-
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div class="col-md-3 position-relative">
-                    <div class="card h-100 shadow-sm">
-                        <img src="https://placehold.co/400" class="card-img-top" alt="Imagen del producto">
-                        <div class="card-body">
-                            <p class="card-title">Nombre producto</p>
-                            <p class="card-text">Descripción: Lorem ipsum dolor sit amet</p>
-
-                            <div class="d-flex justify-content-evenly">
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#edit"><i class="bi bi-pencil-square"></i> Editar</button>
-                                <a href="#" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Eliminar</a>
-                            </div>
-                        </div>
-
-                        <div class="position-absolute top-0 start-0 m-2">
-                            <p><span class="badge rounded-pill text-bg-dark">Bruluart</span></p>
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
 
             <!-- Modal-edit -->
@@ -182,42 +155,43 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                                <form>
+                                <form id="edit-prod" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="nombre" name="nombre"
+                                                <input type="text" class="form-control" id="edit-nombre" name="edit-nombre"
                                                     placeholder="Nombre" required />
-                                                <label for="nombre">Nombre</label>
+                                                <label for="edit-nombre">Nombre</label>
                                             </div>
                                         </div>
+
                                         <div class="col-md-12 mb-3">
                                             <div class="form-floating">
-                                                <textarea class="form-control" placeholder="Descripción"
-                                                    id="descripcion"></textarea>
-                                                <label for="descripcion">Descripción</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <div class="form-floating">
-                                                <input type="file" class="form-control" id="img" name="img"
-                                                    placeholder="Imagen" required />
-                                                <label for="img">Imagen</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <div class="form-floating">
-                                                <select class="form-select" id="lab" name="lab" required>
-                                                    <option value="Aguascalientes">Aguascalientes</option>
-                                                    <option value="Baja California">Baja California</option>
+                                                <select class="form-select" id="edit-lab" name="edit-lab" required>
+                                                    <?php
+                                                    $q_lab_ed = "SELECT ID, NOMBRE FROM lab";
+                                                    $res_lab_ed = $con->prepare($q_lab_ed);
+                                                    $res_lab_ed->execute();
+                                                    if ($res_lab_ed->rowCount() > 0) {
+                                                        while ($data_lab_ed = $res_lab_ed->fetch(PDO::FETCH_ASSOC)) {
+                                                            ?>
+                                                            <option value="<?php echo $data_lab_ed['ID']; ?>">
+                                                                <?php echo $data_lab_ed['NOMBRE']; ?>
+                                                            </option>
+                                                            <?php
+                                                        }
+                                                    } else {
+                                                        echo '<option value="null">No hay laboratorios</option>';
+                                                    }
+                                                    ?>
                                                 </select>
-                                                <label for="lab">Laboratorio</label>
+                                                <label for="edit-lab">Laboratorio</label>
                                             </div>
+                                            <input type="hidden"  id="edit-id-prod" name="edit-id-prod" value="id" required>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="d-grid">
-                                                <input type="submit" value="Agregar" class="btn btn-primary btn-lg"
-                                                    id="btn-prod" />
+                                                <input type="submit" value="Editar" class="btn btn-primary btn-lg" />
                                             </div>
                                         </div>
                                     </div>
