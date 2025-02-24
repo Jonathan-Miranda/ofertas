@@ -16,7 +16,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
 
-    <body class="bg-dark text-white">
+    <body class="bg-dark">
         <?php
         require('src/components/nav.php');
         ?>
@@ -26,8 +26,15 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
 
                 <div class="col-md-3">
                     <div class="card h-100 shadow-sm">
+                        <?php
+                        $q_s = "SELECT COUNT(*) AS sucursales FROM admin WHERE ROLL = '2'";
+                        $r_q_s = $con->prepare($q_s);
+                        $r_q_s->execute();
+                        $restot = $r_q_s->fetch(PDO::FETCH_ASSOC);
+                        $total_suc = $restot['sucursales'];
+                        ?>
                         <div class="card-body">
-                            <p class="text-center pp">🏥Farmacias registradas 8</p>
+                            <p class="text-center pp">🏥Farmacias registradas: <?php echo $total_suc; ?></p>
                         </div>
                     </div>
                 </div>
@@ -66,7 +73,8 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                 </div>
                                 <div class="modal-body">
                                     <div class="container">
-                                        <form>
+                                        <form id="add-sucursal" method="POST" enctype="multipart/form-data"
+                                            accept-charset="utf-8">
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
                                                     <div class="form-floating">
@@ -84,10 +92,21 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control" id="pw" name="pw"
+                                                            placeholder="Contraseña" required />
+                                                        <label for="pw">Contraseña</label>
+                                                    </div>
+                                                    <p>Genera una: <a
+                                                            href="https://www.lastpass.com/es/features/password-generator"
+                                                            target="_blank" rel="noopener noreferrer">contraseña</a></p>
+                                                </div>
+
                                                 <div class="col-md-12">
                                                     <div class="d-grid">
-                                                        <input type="submit" value="Agregar" class="btn btn-primary btn-lg"
-                                                            id="btn-prod" />
+                                                        <input type="submit" value="Agregar"
+                                                            class="btn btn-primary btn-lg" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,39 +123,20 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
 
             <div class="row mb-3">
                 <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="text-center">
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Correo</th>
+                                    <th scope="col">Editar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" id="result">
 
-                    <div class="card shadow-sm">
-                        <div class="card-header"></div>
-                        <div class="card-body px-5">
-                            <div class="table-responsive text-center">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Correo</th>
-                                            <th scope="col">Editar</th>
-                                            <th scope="col">Borrar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>Ky6</th>
-                                            <th>ejemplo@ejemplo.com</th>
-                                            <td>
-                                                <button class="btn btn-success" type="button" id="btn-add"><i
-                                                        class="bi bi-pencil-square"></i></button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger" type="button" id="btn-add"><i
-                                                        class="bi bi-trash-fill"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
 
                 <!-- Modal-edit -->
@@ -149,7 +149,8 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                             </div>
                             <div class="modal-body">
                                 <div class="container">
-                                    <form>
+                                    <form id="edit-sucursal" method="POST" enctype="multipart/form-data"
+                                        accept-charset="utf-8">
                                         <div class="row">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
@@ -158,33 +159,11 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                                     <label for="nombre">Nombre</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class="form-floating">
-                                                    <textarea class="form-control" placeholder="Descripción"
-                                                        id="descripcion"></textarea>
-                                                    <label for="descripcion">Descripción</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class="form-floating">
-                                                    <input type="file" class="form-control" id="img" name="img"
-                                                        placeholder="Imagen" required />
-                                                    <label for="img">Imagen</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class="form-floating">
-                                                    <select class="form-select" id="lab" name="lab" required>
-                                                        <option value="Aguascalientes">Aguascalientes</option>
-                                                        <option value="Baja California">Baja California</option>
-                                                    </select>
-                                                    <label for="lab">Laboratorio</label>
-                                                </div>
-                                            </div>
+
                                             <div class="col-md-12">
                                                 <div class="d-grid">
-                                                    <input type="submit" value="Agregar" class="btn btn-primary btn-lg"
-                                                        id="btn-prod" />
+                                                    <input type="submit" value="Actualizar"
+                                                        class="btn btn-primary btn-lg" />
                                                 </div>
                                             </div>
                                         </div>
@@ -201,6 +180,9 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
 
             <?php
             require('../js/jquery-boot-sweetalert.php');
+            ?>
+            <?php
+            require('js/users.php');
             ?>
     </body>
 
