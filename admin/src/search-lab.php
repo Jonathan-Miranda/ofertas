@@ -28,7 +28,8 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                 <th><?php echo $data['NOMBRE']; ?></th>
                 <td>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit"
-                     data-bs-id="<?php echo $data['ID']; ?>">
+                     data-bs-id="<?php echo $data['ID']; ?>" 
+                     data-bs-nombre="<?php echo $data['NOMBRE']; ?>">
                         <i class="bi bi-pencil-square"></i> Editar
                     </button>
                 </td>
