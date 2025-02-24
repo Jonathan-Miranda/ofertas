@@ -73,7 +73,7 @@
     });
     // end add product
     // edit prod
-    $('#edit-prod').submit(function (e) {
+    $('#edit-lab').submit(function (e) {
         e.preventDefault();
 
         const formData = new FormData(this);
@@ -91,7 +91,7 @@
                         icon: response.icon,
                         title: response.msj,
                     }).then(() => {
-                        window.location.href = "product.php";
+                        window.location.href = "lab.php";
                     });
                 } else {
                     Swal.fire({
@@ -128,12 +128,12 @@
                 // Actualizar los campos en la modal
                 const modalTitle = exampleModal.querySelector('.modal-title');
                 const inName = exampleModal.querySelector('#edit-nombre');
-                const inprod = exampleModal.querySelector('#edit-id-prod');
+                const inlab = exampleModal.querySelector('#edit-id-lab');
 
                 // Llenar los valores de la modal con los datos
                 modalTitle.textContent = `Editar: ${nombre}`;
                 inName.value = nombre;
-                inprod.value = id;
+                inlab.value = id;
             });
         }
     });
