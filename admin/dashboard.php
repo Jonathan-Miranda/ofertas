@@ -195,7 +195,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                 <div class="col-lg-6">
                     <div class="card shadow-sm">
                         <div class="card-header text-center fs-5">
-                            🔥Más Canjeados
+                            🔥Ventas por sucursales
                         </div>
                         <div class="card-body">
                             <canvas id="canje"></canvas>
