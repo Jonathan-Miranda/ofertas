@@ -130,42 +130,20 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                             </div>
                             <div class="modal-body">
                                 <div class="container">
-                                    <form>
+                                    <form id="edit-lab" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
                                         <div class="row">
                                             <div class="col-md-12 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="nombre" name="nombre"
-                                                        placeholder="Nombre" required />
-                                                    <label for="nombre">Nombre</label>
+                                                    <input type="text" class="form-control" id="edit-nombre"
+                                                        name="edit-nombre" placeholder="Nombre" required />
+                                                    <label for="edit-nombre">Nombre</label>
                                                 </div>
+                                                <input type="hidden"  id="edit-id-lab" name="edit-id-lab" value="id" required>
                                             </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class="form-floating">
-                                                    <textarea class="form-control" placeholder="Descripción"
-                                                        id="descripcion"></textarea>
-                                                    <label for="descripcion">Descripción</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class="form-floating">
-                                                    <input type="file" class="form-control" id="img" name="img"
-                                                        placeholder="Imagen" required />
-                                                    <label for="img">Imagen</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 mb-3">
-                                                <div class="form-floating">
-                                                    <select class="form-select" id="lab" name="lab" required>
-                                                        <option value="Aguascalientes">Aguascalientes</option>
-                                                        <option value="Baja California">Baja California</option>
-                                                    </select>
-                                                    <label for="lab">Laboratorio</label>
-                                                </div>
-                                            </div>
+
                                             <div class="col-md-12">
                                                 <div class="d-grid">
-                                                    <input type="submit" value="Agregar" class="btn btn-primary btn-lg"
-                                                        id="btn-prod" />
+                                                    <input type="submit" value="Editar" class="btn btn-primary btn-lg" />
                                                 </div>
                                             </div>
                                         </div>
@@ -176,7 +154,6 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                     </div>
                 </div>
                 <!-- End Modal-edit -->
-
 
             </div>
 
