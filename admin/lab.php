@@ -29,7 +29,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                 <div class="col-md-3">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <p class="text-center pp">🧪Laboratorios registrados 8</p>
+                            <p class="text-center pp">🧪Laboratorios registrados 10</p>
                         </div>
                     </div>
                 </div>
