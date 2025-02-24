@@ -9,7 +9,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Usuarios</title>
+        <title>Sucursales</title>
         <?php
         require('../src/component/fonts-bootstrap.php');
         ?>
