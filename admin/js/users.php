@@ -1,7 +1,7 @@
 <script>
-    // $(function () {
-    //     buscar('');
-    // });
+    $(function () {
+        buscar('');
+    });
     // srch 
     let debounceTimer;
 
@@ -15,7 +15,7 @@
     function buscar(dato) {
         $.ajax({
             type: 'POST',
-            url: 'src/search-lab.php',
+            url: 'src/search-sucursales.php',
             data: { dato: dato },
             success: function (response) {
                 $("#result").html(response);
@@ -73,13 +73,13 @@
     });
     // end add product
     // edit prod
-    $('#edit-lab').submit(function (e) {
+    $('#edit-sucursal').submit(function (e) {
         e.preventDefault();
 
         const formData = new FormData(this);
 
         $.ajax({
-            url: "src/edit-lab.php",
+            url: "src/edit-sucursal.php",
             type: "POST",
             dataType: "json",
             data: formData,
@@ -123,17 +123,20 @@
 
                 // Extraer la información del botón
                 const nombre = button.getAttribute('data-bs-nombre');
+                const mail = button.getAttribute('data-bs-correo');
                 const id = button.getAttribute('data-bs-id');
 
                 // Actualizar los campos en la modal
                 const modalTitle = exampleModal.querySelector('.modal-title');
                 const inName = exampleModal.querySelector('#edit-nombre');
-                const inlab = exampleModal.querySelector('#edit-id-lab');
+                const inmail = exampleModal.querySelector('#edit-email');
+                const inid = exampleModal.querySelector('#edit-id-suc');
 
                 // Llenar los valores de la modal con los datos
                 modalTitle.textContent = `Editar: ${nombre}`;
                 inName.value = nombre;
-                inlab.value = id;
+                inmail.value = mail;
+                inid.value = id;
             });
         }
     });
