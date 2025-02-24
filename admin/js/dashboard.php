@@ -75,23 +75,30 @@
         .catch(error => console.error('Error obteniendo los datos:', error));
 
 
-    new Chart(canje, {
-        type: 'doughnut',
-        data: {
-            labels: ['Ky6', 'Fayrus', 'Portem', 'Tribedoce', 'Lo-bruquin', 'Afleno', 'Tarmin', 'Brunadol'],
-            datasets: [{
-                label: 'Canje',
-                data: [12, 19, 3, 5, 2, 3, 8, 5],
-                borderWidth: 1,
-                borderRadius: 20
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+    fetch('src/components/data-venta-sucursal.php')
+        .then(response => response.json())
+        .then(data => {
+            const sucursal = data.map(item => item.sucursal);
+            const ventas = data.map(item => item.total_ventas);
+            new Chart(canje, {
+                type: 'doughnut',
+                data: {
+                    labels: sucursal,
+                    datasets: [{
+                        label: 'Canje',
+                        data: ventas,
+                        borderWidth: 1,
+                        borderRadius: 20
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-            }
-        }
-    });
+            });
+        })
+        .catch(error => console.error('Error obteniendo los datos:', error));
 </script>
