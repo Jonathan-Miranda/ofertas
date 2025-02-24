@@ -128,52 +128,45 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                             <th scope="col">Producto</th>
                                             <th scope="col">Cantidad</th>
                                             <th scope="col">Fecha</th>
-                                            <th scope="col">Estado</th>
+                                            <th scope="col">Sucursal</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">Pedro</th>
-                                            <td>Ky6</td>
-                                            <td>1</td>
-                                            <td>10-02-25</td>
-                                            <td>1/3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Juan</th>
-                                            <td>Fayrus</td>
-                                            <td>3</td>
-                                            <td>13-02-25</td>
-                                            <td>3/3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Marta</th>
-                                            <td>Fayrus</td>
-                                            <td>3</td>
-                                            <td>13-02-25</td>
-                                            <td>3/3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Pablo</th>
-                                            <td>Fayrus</td>
-                                            <td>3</td>
-                                            <td>13-02-25</td>
-                                            <td>3/3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Sofia</th>
-                                            <td>Fayrus</td>
-                                            <td>3</td>
-                                            <td>13-02-25</td>
-                                            <td>3/3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Marcos</th>
-                                            <td>Fayrus</td>
-                                            <td>3</td>
-                                            <td>13-02-25</td>
-                                            <td>3/3</td>
-                                        </tr>
+                                        <?php
+                                        $q_tabla_venta = "SELECT 
+                                        user.NOMBRE AS cliente_nombre, 
+                                        product.NOMBRE AS producto_comprado, 
+                                        compra.CANTIDAD AS cantidad_comprada, 
+                                        compra.FECHA_COMPRA AS fecha_compra, 
+                                        admin.NOMBRE AS sucursal 
+                                        FROM compra 
+                                        JOIN user ON compra.ID_USER = user.ID 
+                                        JOIN product ON compra.ID_PRODUCT = product.ID 
+                                        JOIN admin ON compra.ID_ADMIN = admin.ID 
+                                        WHERE compra.CANTIDAD >= 1 
+                                        ORDER BY compra.FECHA_COMPRA DESC LIMIT 10";
+                                        $res_q_tabla_venta = $con->prepare($q_tabla_venta);
+                                        $res_q_tabla_venta->execute();
+                                        if ($res_q_tabla_venta->rowCount() > 0) {
+                                            while ($data_tabla_venta = $res_q_tabla_venta->fetch(PDO::FETCH_ASSOC)) {
+                                                ?>
+                                                <tr>
+                                                    <th><?php echo $data_tabla_venta['cliente_nombre']; ?></th>
+                                                    <td><?php echo $data_tabla_venta['producto_comprado']; ?></td>
+                                                    <td><?php echo $data_tabla_venta['cantidad_comprada']; ?></td>
+                                                    <td><?php echo $data_tabla_venta['fecha_compra']; ?></td>
+                                                    <td><?php echo $data_tabla_venta['sucursal']; ?></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        } else {
+                                            echo '<tr>
+                                            <td colspan="5">
+                                            <div class="alert alert-danger" role="alert">Aún no hay ventas</div>
+                                            </td>
+                                            </tr>';
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
