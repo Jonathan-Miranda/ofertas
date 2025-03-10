@@ -85,6 +85,26 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-5 mb-3">
+                                                    <div class="form-floating">
+                                                        <input type="number" class="form-control" id="compra" name="compra"
+                                                            placeholder="Compra" required />
+                                                        <label for="compra">Compra</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 mb-3  fs-3 text-center m-auto">
+                                                    <p>X</p>
+                                                </div>
+
+                                                <div class="col-md-5 mb-3">
+                                                    <div class="form-floating">
+                                                        <input type="number" class="form-control" id="oferta" name="oferta"
+                                                            placeholder="Paga" required />
+                                                        <label for="oferta">Paga</label>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-md-12 mb-3">
                                                     <div class="form-floating">
                                                         <select class="form-select" id="lab" name="lab" required>
