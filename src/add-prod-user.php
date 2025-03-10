@@ -35,6 +35,15 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
         }
 
         try {
+            // Consulta para obtener el valor de OFERTA del producto
+            $q_oferta = "SELECT OFERTA FROM product WHERE ID = :id_prod";
+            $resOferta = $con->prepare($q_oferta);
+            $resOferta->bindParam(':id_prod', $product, PDO::PARAM_INT);
+            $resOferta->execute();
+
+            // Obtener el valor de la oferta
+            $ofe_prod = $resOferta->fetchColumn();
+
             // Consulta de insercion
             $q = "INSERT INTO user_product (ID_USER, ID_PRODUCT) VALUES (:id_us, :id_prod)";
             $res = $con->prepare($q);
@@ -55,11 +64,12 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
                 $resQ->bindParam(':id_ad', $_SESSION['id-user'], PDO::PARAM_INT);
                 $resQ->bindParam(':cant', $cant, PDO::PARAM_INT);
                 if ($resQ->execute()) {
-                    $q_promo = "INSERT INTO promo (ID_USER_PRODUCT, COMPRADOS) VALUES (:id_us_prod, :cant)";
+                    $q_promo = "INSERT INTO promo (ID_USER_PRODUCT, COMPRADOS, FALTANTES) VALUES (:id_us_prod, :cant, :faltant)";
                     $resP = $con->prepare($q_promo);
 
                     $resP->bindParam(':id_us_prod', $idUserProduct, PDO::PARAM_INT);
                     $resP->bindParam(':cant', $cant, PDO::PARAM_INT);
+                    $resP->bindParam(':faltant', $ofe_prod, PDO::PARAM_INT);
                     if ($resP->execute()) {
                         $icon = "success";
                         $msj = "Se añadio el producto";
