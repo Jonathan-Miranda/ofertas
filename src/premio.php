@@ -28,11 +28,20 @@ if (isset($_SESSION['id-user']) && $_SESSION["rol"] === 2) {
             $resQ->bindParam(':id_ad', $_SESSION['id-user'], PDO::PARAM_INT);
             if ($resQ->execute()) {
                 $newComprado = 0;
-                $newFaltante = 3;
+
+                // Consulta para obtener el valor de OFERTA del producto
+                $q_oferta = "SELECT OFERTA FROM product WHERE ID = :id_prod";
+                $resOferta = $con->prepare($q_oferta);
+                $resOferta->bindParam(':id_prod', $id_prod_regalo, PDO::PARAM_INT);
+                $resOferta->execute();
+
+                // Obtener el valor de la oferta
+                $ofe_prod = $resOferta->fetchColumn();
+
                 $q_promo = "UPDATE promo SET COMPRADOS = :cantidad_nueva, FALTANTES = :falta_nueva WHERE ID = :id_promo";
                 $resP = $con->prepare($q_promo);
                 $resP->bindParam(':cantidad_nueva', $newComprado, PDO::PARAM_INT);
-                $resP->bindParam(':falta_nueva', $newFaltante, PDO::PARAM_INT);
+                $resP->bindParam(':falta_nueva', $ofe_prod, PDO::PARAM_INT);
                 $resP->bindParam(':id_promo', $id_promo, PDO::PARAM_INT);
                 if ($resP->execute()) {
                     $icon = "success";
