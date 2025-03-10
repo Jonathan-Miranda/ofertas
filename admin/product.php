@@ -154,6 +154,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Laboratorio</th>
+                                    <th scope="col">Oferta</th>
                                     <th scope="col">Editar</th>
                                 </tr>
                             </thead>
