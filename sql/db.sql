@@ -86,3 +86,25 @@ CREATE TABLE history (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+DELIMITER $$
+
+CREATE TRIGGER actualizar_oferta
+AFTER UPDATE ON product
+FOR EACH ROW
+BEGIN
+    -- Verificar si el campo OFERTA ha cambiado
+    IF OLD.OFERTA != NEW.OFERTA THEN
+        -- Actualizar los valores de COMPRADOS y FALTANTES en la tabla promo
+        UPDATE promo
+        SET promo.COMPRADOS = 0,  -- COMPRADOS se pone en 0
+            promo.FALTANTES = NEW.OFERTA -- FALTANTES se pone con el nuevo valor de OFERTA
+        WHERE promo.ID_USER_PRODUCT IN (
+            SELECT up.ID
+            FROM user_product up
+            WHERE up.ID_PRODUCT = NEW.ID
+        );
+    END IF;
+END$$
+
+DELIMITER ;
