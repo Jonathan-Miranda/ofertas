@@ -124,16 +124,19 @@
                 // Extraer la información del botón
                 const nombre = button.getAttribute('data-bs-nombre');
                 const id = button.getAttribute('data-bs-id');
+                const promo = button.getAttribute('data-bs-promo');
 
                 // Actualizar los campos en la modal
                 const modalTitle = exampleModal.querySelector('.modal-title');
                 const inName = exampleModal.querySelector('#edit-nombre');
                 const inprod = exampleModal.querySelector('#edit-id-prod');
+                const inpromo = exampleModal.querySelector('#edit-oferta');
 
                 // Llenar los valores de la modal con los datos
                 modalTitle.textContent = `Editar: ${nombre}`;
                 inName.value = nombre;
                 inprod.value = id;
+                inpromo.value = promo;
             });
         }
     });
