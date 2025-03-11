@@ -32,7 +32,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                 <td><?php echo $data['OFERTA']; ?></td>
                 <td>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#edit"
-                        data-bs-nombre="<?php echo $data['NOMBRE']; ?>" data-bs-id="<?php echo $data['ID']; ?>">
+                        data-bs-nombre="<?php echo $data['NOMBRE']; ?>" data-bs-id="<?php echo $data['ID']; ?>" data-bs-promo="<?php echo $data['OFERTA']; ?>">
                         <i class="bi bi-pencil-square"></i> Editar
                     </button>
                 </td>
