@@ -186,6 +186,26 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                             </div>
                                         </div>
 
+                                        <div class="col-md-5 mb-3">
+                                            <div class="form-floating">
+                                                <input type="number" class="form-control" id="edit-compra" name="edit-compra"
+                                                    placeholder="Compra" required />
+                                                <label for="edit-compra">Compra</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 mb-3  fs-3 text-center m-auto">
+                                            <p>X</p>
+                                        </div>
+
+                                        <div class="col-md-5 mb-3">
+                                            <div class="form-floating">
+                                                <input type="number" class="form-control" id="edit-oferta" name="edit-oferta"
+                                                    placeholder="Paga" required />
+                                                <label for="edit-oferta">Paga</label>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-12 mb-3">
                                             <div class="form-floating">
                                                 <select class="form-select" id="edit-lab" name="edit-lab" required>
@@ -208,7 +228,7 @@ if (isset($_SESSION['ad-name']) && $_SESSION["rol"] === 0) {
                                                 </select>
                                                 <label for="edit-lab">Laboratorio</label>
                                             </div>
-                                            <input type="hidden"  id="edit-id-prod" name="edit-id-prod" value="id" required>
+                                            <input type="hidden" id="edit-id-prod" name="edit-id-prod" value="id" required>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="d-grid">
